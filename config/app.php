@@ -168,6 +168,8 @@ return [
          * Package Service Providers...
          */
 
+        'MathiasGrimm\LaravelDotEnvGen\DotEnvGenServiceProvider',
+
         /*
          * Application Service Providers...
          */

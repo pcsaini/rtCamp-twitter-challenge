@@ -1,0 +1,21 @@
+{
+  "name": "rtCamp-twitter-challenge",
+  "homepage": "https://github.com/pcsaini/rtCamp-twitter-challenge",
+  "authors": [
+    "Prem Chand Saini <premchandsaini779@gmail.com>"
+  ],
+  "description": "RTCamp Twitter Timeline Challenge",
+  "main": "",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.7",
+    "jquery": "^3.2.1"
+  }
+}
