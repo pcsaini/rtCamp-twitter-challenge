@@ -168,8 +168,9 @@ return [
          * Package Service Providers...
          */
 
-        //'MathiasGrimm\LaravelDotEnvGen\DotEnvGenServiceProvider',
+        'MathiasGrimm\LaravelDotEnvGen\DotEnvGenServiceProvider',
         Thujohn\Twitter\TwitterServiceProvider::class,
+        Barryvdh\DomPDF\ServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -231,6 +232,7 @@ return [
 
         'Twitter' => Thujohn\Twitter\Facades\Twitter::class,
         'Input' => Illuminate\Support\Facades\Input::class,
+        'PDF' => Barryvdh\DomPDF\Facade::class,
 
     ],
 

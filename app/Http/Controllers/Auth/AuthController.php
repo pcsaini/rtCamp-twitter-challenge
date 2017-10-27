@@ -13,6 +13,10 @@ use Thujohn\Twitter\Facades\Twitter;
 class AuthController extends Controller
 {
     //
+    public function index(){
+        return view('index');
+    }
+
     public function login(){
         try {
             if(Session::has('access_token')) {

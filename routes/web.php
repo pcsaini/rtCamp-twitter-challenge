@@ -11,13 +11,11 @@
 |
 */
 
-Route::get('/', function () {
-    return view('index');
-});
 
-Route::get('/index', function () {
-    return view('index');
-});
+Route::get('/','Auth\AuthController@index');
+
+Route::get('/index',['as'=>'index','uses'=>'Auth\AuthController@index']);
+
 Route::get('/login/twitter',['as' => 'twitter.login','uses' => 'Auth\AuthController@Login']);
 
 Route::get('/login/twitter/callback',['as' => 'twitter.callback', 'uses' => 'Auth\AuthController@loginCallBack']);
@@ -29,3 +27,7 @@ Route::get('/loginError',['as'=>'twitter.error','uses'=>'Auth\AuthController@log
 Route::get('/twitter',['as'=>'twitterTimeline','uses' => 'Twitter\TwitterController@twitterTimeline']);
 
 Route::get('/twitter/{user}',['as'=>'twitterUserTimeline','uses' => 'Twitter\TwitterController@twitterUserTimeline']);
+
+Route::get('/twitter/{query}',['as'=>'searchFollower','uses' => 'Twitter\TwitterController@searchFollower']);
+
+Route::post('/twitter/send-mail',['as'=>'sendMail','uses' => 'Twitter\TwitterController@sendMail']);

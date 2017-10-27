@@ -1,8 +1,8 @@
 @extends('layouts.base')
 @section('content')
-
-    <!-- Main component for call to action -->
-        <h1>Twitter Timeline New Challenge</h1>
-        <a class="btn btn-primary" href="{{route('twitter.login')}}">Login With Twitter</a>
-
+    <div class="container">
+        <center><img src="{{asset('img/apple-touch-icon-192x192.png')}}">
+        <h1 class="text-center">Twitter Timeline Challenge</h1>
+        <center><a class="btn btn-info btn-lg" href="{{route('twitter.login')}}">Login With Twitter</a></center>
+    </div>
 @endsection
