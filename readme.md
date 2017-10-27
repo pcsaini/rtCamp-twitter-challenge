@@ -22,7 +22,39 @@ Create a Laravel web application to accomplish following parts:
    3. Clicking on Go after entering the email address should lead to the user receiving all his tweets in PDF format by mail.
 
 
-## Package
+## How To Run
+### Download and Setup
+```
+git clone https://github.com/pcsaini/rtCamp-twitter-challenge.git
+cd rtCamp-twitter-challenge
+composer install
+php artisan env:gen
+```
+
+### Download Bower Components
+```
+cd public 
+bower install
+```
+
+### Run
+```
+php artisan serve
+```
+[http://localhost:8000](http://localhost:8000)
+
+
+OR
+
+
+```
+php -S localhost:8080 -t public
+```
+[http://localhost:8080](http://localhost:8080)
+
+
+
+## Package Uses
 ### Twitter API Library
 [Github Repo](https://github.com/thujohn/twitter)
 
@@ -39,3 +71,18 @@ Install the package using composer:
 composer require mathiasgrimm/laravel-dot-env-gen:dev-master
 ```
 
+### PHPMailer
+[Github Repo](https://github.com/PHPMailer/PHPMailer)
+
+Install the package using composer:
+```
+composer require phpmailer/phpmailer
+```
+
+### DOMPDF Wrapper for Laravel 5
+[Github Repo](https://github.com/barryvdh/laravel-dompdf)
+
+Install the package using composer:
+```
+composer require barryvdh/laravel-dompdf
+```
