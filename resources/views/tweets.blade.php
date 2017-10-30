@@ -1,4 +1,5 @@
-
+<script src="{{asset('js/jquery.bxslider.min.js')}}"></script>
+<script src="{{asset('js/ajax.js')}}"></script>
 
 <div class="slider">
     @if(!empty($tweets))
@@ -6,12 +7,12 @@
             <div>
                 <div class="tweet">
                     <div class="row">
-                        <div class="col-md-2">
+                        <div class="col-xs-2">
                             <div class="profile_pic">
                                 <img src="{{$tweet['user']['profile_image_url']}}">
                             </div>
                         </div>
-                        <div class="col-md-10">
+                        <div class="col-xs-10">
                             <div class="tweet-header">
                                 <span class="user_name">{{$tweet['user']['name']}}</span> -
                                 <span>{!! Twitter::linkify('@'.$tweet['user']['screen_name']) !!}</span>
@@ -59,6 +60,3 @@
         <p>No Tweets</p>
     @endif
 </div>
-
-<script src="{{asset('js/jquery.bxslider.min.js')}}"></script>
-<script src="{{asset('js/ajax.js')}}"></script>

@@ -3,11 +3,11 @@
     <div class="container">
         <center><img src="{{asset('img/apple-touch-icon-192x192.png')}}">
             <h1 class="text-center">Twitter Timeline</h1>
-            <button data-toggle="modal" data-target="#Mail" class="btn btn-primary">Send Mail all Tweets as a PDF</button>
+            <button data-toggle="modal" data-target="#Mail" class="btn btn-primary">Email Tweets as PDF</button>
         </center>
         <br>
         <div class='row'>
-            <div class='col-md-offset-2 col-md-8 twitter'>
+            <div class='col-md-offset-2 col-md-8 col-sm-12 twitter'>
 
                 <div class="slider">
                     @if(!empty($tweets))
@@ -15,12 +15,12 @@
                             <div>
                                 <div class="tweet">
                                     <div class="row">
-                                        <div class="col-md-2">
+                                        <div class="col-xs-2">
                                             <div class="profile_pic">
                                                 <img src="{{$tweet['user']['profile_image_url']}}">
                                             </div>
                                         </div>
-                                        <div class="col-md-10">
+                                        <div class="col-xs-10">
                                             <div class="tweet-header">
                                                 <span class="user_name">{{$tweet['user']['name']}}</span> -
                                                 <span>{!! Twitter::linkify('@'.$tweet['user']['screen_name']) !!}</span>
@@ -96,7 +96,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Send Mail all Tweets as a PDF</h4>
+                    <h4 class="modal-title">Email Tweets as PDF</h4>
                 </div>
                 <div class="modal-body">
                     <div class="row">

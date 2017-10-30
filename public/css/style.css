@@ -1,71 +1,93 @@
-body{
+body {
     font-family: 'Roboto', sans-serif;
     font-weight: 100;
     height: 100vh;
     margin: 0;
 }
-.navbar{
+
+.navbar {
     background: #2E3436;
     border-radius: 0;
 }
-.navbar a{
+
+.navbar a {
     color: #ffffff;
 }
-.nav > li > a:focus, .nav > li > a:hover{
+
+.nav > li > a:focus, .nav > li > a:hover {
     background: transparent;
 }
-.tweet{
+
+.navbar-toggle {
+    border: 1px solid #fff;
+    border-radius: 3px;
+}
+
+.navbar-toggle .icon-bar {
+    background: #fff;
+}
+
+.tweet {
     margin: 20px;
 }
-.tweet .profile_pic{
+
+.tweet .profile_pic {
     width: 100%;
 }
-.tweet .profile_pic img{
-    width: 48px;
+
+.tweet .profile_pic img {
+    max-width: 32px;
     height: auto;
     border-radius: 50%;
     float: right;
 }
-.tweet .tweet-header{
+
+.tweet .tweet-header {
     width: 100%;
 }
-.tweet .tweet-header .user_name{
+
+.tweet .tweet-header .user_name {
     font-weight: bold;
 }
-.tweet .tweet-header .time::before{
+
+.tweet .tweet-header .time::before {
     content: "\00b7";
 }
-.tweet .tweet-body .photoContainer{
+
+.tweet .tweet-body .photoContainer {
     width: 100%;
     text-align: center;
 }
-.tweet .tweet-body .photoContainer img{
+
+.tweet .tweet-body .photoContainer img {
     max-height: 200px;
     display: inline;
 }
-.tweet .tweet-footer ul.footer-icon{
+
+.tweet .tweet-footer ul.footer-icon {
     list-style: none;
     display: block;
     margin-top: 20px;
     padding: 0;
 }
-.tweet .tweet-footer ul.footer-icon li{
+
+.tweet .tweet-footer ul.footer-icon li {
     display: inline-block;
     width: 100px;
     padding: 10px;
     float: left;
 }
-.tweet .tweet-footer .mail{
+
+.tweet .tweet-footer .mail {
     float: right;
 }
-#quote-carousel
-{
+
+#quote-carousel {
     padding: 0 10px 30px 10px;
     margin-top: 30px;
 }
 
-#quote-carousel .carousel-control
-{
+#quote-carousel .carousel-control {
     background: none;
     color: #222;
     font-size: 2.3em;
@@ -73,17 +95,18 @@ body{
     margin-top: 30px;
     width: auto;
 }
+
 /* Previous button  */
-#quote-carousel .carousel-control.left
-{
+#quote-carousel .carousel-control.left {
     left: -12px;
 }
+
 /* Next button  */
-#quote-carousel .carousel-control.right
-{
+#quote-carousel .carousel-control.right {
     right: -12px !important;
 }
-#quote-carousel .carousel-control .glyphicon{
+
+#quote-carousel .carousel-control .glyphicon {
     top: 30%;
 }
 
@@ -114,7 +137,8 @@ body{
     display: block;
     cursor: pointer;
 }
-#myUL li a img{
+
+#myUL li a img {
     width: 32px;
     height: 32px;
     border-radius: 50%;
@@ -130,10 +154,12 @@ footer {
     padding: 20px 0;
     color: #ffffff;
 }
-footer a{
+
+footer a {
     color: #f6f6f6;
     text-decoration: none;
 }
-footer a:hover{
+
+footer a:hover {
     color: #ffffff;
 }

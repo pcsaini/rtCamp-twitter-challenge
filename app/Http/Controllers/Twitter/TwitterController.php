@@ -17,8 +17,8 @@ class TwitterController extends Controller
     {
         if (Session::has('access_token')) {
             try {
-                $tweets = Twitter::getHomeTimeline(['count' => 20, 'format' => 'array']);
-                $followers = Twitter::getFollowers(['count' => 20, 'format' => 'array']);
+                $tweets = Twitter::getHomeTimeline(['count' => 10, 'format' => 'array']);
+                $followers = Twitter::getFollowers(['count' => 10, 'format' => 'array']);
                 return view('twitter', compact('tweets', 'followers'));
             } catch (Exception $e) {
                 dd(Twitter::logs());
@@ -34,7 +34,7 @@ class TwitterController extends Controller
     {
         if (Session::has('access_token')) {
             try {
-                $tweets = Twitter::getUserTimeline(['screen_name' => $user, 'count' => 20, 'format' => 'array']);
+                $tweets = Twitter::getUserTimeline(['screen_name' => $user, 'count' => 10, 'format' => 'array']);
                 $response = view('tweets', compact('tweets'));
                 return $response;
             } catch (Exception $e) {
@@ -55,7 +55,7 @@ class TwitterController extends Controller
             try {
                 $token = session::get('access_token');
                 $screen_name = $token['screen_name'];
-                $tweets = Twitter::getHomeTimeline(['count' => 20, 'format' => 'array']);
+                $tweets = Twitter::getUserTimeline(['screen_name' => $screen_name, 'count' => 30, 'format' => 'array']);
                 PDF::setOptions(['dpi' => 150, 'defaultFont' => 'serif']);
                 $pdf = PDF::loadView('mail.tweets', compact('tweets'));
                 $pdf = $pdf->Output('S');
