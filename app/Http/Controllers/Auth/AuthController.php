@@ -14,7 +14,11 @@ class AuthController extends Controller
 {
     //
     public function index(){
-        return view('index');
+        if(Session::has('access_token')) {
+            return redirect(route('twitterTimeline'));
+        }{
+            return view('index');
+        }
     }
 
     public function login(){

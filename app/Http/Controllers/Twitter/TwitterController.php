@@ -13,6 +13,8 @@ use Thujohn\Twitter\Facades\Twitter;
 class TwitterController extends Controller
 {
     //
+
+
     public function twitterTimeline()
     {
         if (Session::has('access_token')) {
@@ -55,7 +57,7 @@ class TwitterController extends Controller
             try {
                 $token = session::get('access_token');
                 $screen_name = $token['screen_name'];
-                $tweets = Twitter::getUserTimeline(['screen_name' => $screen_name, 'count' => 30, 'format' => 'array']);
+                $tweets = Twitter::getUserTimeline(['screen_name' => $screen_name, 'count' => 10, 'format' => 'array']);
                 PDF::setOptions(['dpi' => 150, 'defaultFont' => 'serif']);
                 $pdf = PDF::loadView('mail.tweets', compact('tweets'));
                 $pdf = $pdf->Output('S');
@@ -64,7 +66,7 @@ class TwitterController extends Controller
 
                 $subject = "Twitter Timeline (@" . $screen_name . ")";
 
-                $body = view('mail.tweets', compact('tweets'));
+                $body = "Twitter Timeline (@" . $screen_name . ")  -pfa";
 
                 $mail1 = $mail->Mail($email, 'Unknown User', $subject, $body, $pdf, $pdfName);
 
