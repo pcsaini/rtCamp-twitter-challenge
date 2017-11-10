@@ -101,14 +101,17 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-lg-12">
-                            <form role="form" method="POST" action="{{route('sendMail')}}">
-                                {{ csrf_field() }}
+                            <form role="form" id="sendMail">
                                 <div class="form-group col-lg-12">
                                     <label>Email Address:</label>
-                                    <input type="email" class="form-control" name="email" placeholder="Enter Email Address" required>
+                                    <input type="email" class="form-control" name="email" id="email" placeholder="Enter Email Address" required>
                                 </div>
                                 <center><button type="submit" class="btn btn-info">GO</button></center>
                             </form>
+                            <div id="loader">
+                                <img src="{{asset('img/loader.gif')}}">
+                            </div>
+                            <div class="response"></div>
                         </div>
                     </div>
                 </div>

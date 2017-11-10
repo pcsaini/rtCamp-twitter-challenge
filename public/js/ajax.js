@@ -1,5 +1,7 @@
 $(document).ready(function () {
 
+    $('#loader').hide();
+
     var url = "http:localhost:8888/twitter/";
 
     $('.follower').click(function () {
@@ -24,22 +26,20 @@ $(document).ready(function () {
         speed:700
     });
 
-    $('#mailSend').submit(function () {
+    $('#sendMail').submit(function () {
         var email = $('#email').val();
 
+        $('#sendMail').hide();
+        $('#loader').show();
         $.ajax({
-            type: 'post',
-            url: '/twitter/send-mail',
-            dataType: 'JSON',
-            data: {
-                email:email
-            },
+            type: 'GET',
+            url: '/twitter/mail/'+ email,
             success: function (response) {
                 if (response.done == true) {
-                    $('#addRoom').modal('hide');
-                    window.location.href = 'index.php?room_mang';
+                    $('#loader').hide();
+                    $('.response').html('<div class="alert bg-danger alert-dismissable" role="alert"><em class="fa fa-lg fa-warning">&nbsp;</em>Mail Successfully Sent.</div>')
                 } else {
-                    $('.response').html('<div class="alert bg-danger alert-dismissable" role="alert"><em class="fa fa-lg fa-warning">&nbsp;</em>' + response.data + '</div>');
+                    $('.response').html('<div class="alert bg-danger alert-dismissable" role="alert"><em class="fa fa-lg fa-warning">&nbsp;</em>Some Problem in Create PDF or sending mail</div>');
                 }
             }
         });

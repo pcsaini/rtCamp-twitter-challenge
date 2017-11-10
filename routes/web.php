@@ -31,3 +31,5 @@ Route::get('/twitter/{user}',['as'=>'twitterUserTimeline','uses' => 'Twitter\Twi
 Route::get('/twitter/{query}',['as'=>'searchFollower','uses' => 'Twitter\TwitterController@searchFollower']);
 
 Route::post('/twitter/send-mail',['as'=>'sendMail','uses' => 'Twitter\TwitterController@sendMail']);
+
+Route::get('/twitter/mail/{email}',['as'=>'sendMail','uses' => 'Twitter\TwitterController@mail']);

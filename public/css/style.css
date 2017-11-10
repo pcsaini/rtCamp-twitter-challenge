@@ -163,3 +163,7 @@ footer a {
 footer a:hover {
     color: #ffffff;
 }
+
+#loader{
+    text-align: center;
+}

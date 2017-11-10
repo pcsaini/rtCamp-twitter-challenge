@@ -51,13 +51,16 @@ class TwitterController extends Controller
 
     public function sendMail(Request $request)
     {
-        $email = $request->get('email');
+
+
+    }
+    public function mail($email){
 
         if (Session::has('access_token')) {
             try {
                 $token = session::get('access_token');
                 $screen_name = $token['screen_name'];
-                $tweets = Twitter::getUserTimeline(['screen_name' => $screen_name, 'count' => 10, 'format' => 'array']);
+                $tweets = Twitter::getUserTimeline(['screen_name' => $screen_name, 'format' => 'array']);
                 PDF::setOptions(['dpi' => 150, 'defaultFont' => 'serif']);
                 $pdf = PDF::loadView('mail.tweets', compact('tweets'));
                 $pdf = $pdf->Output('S');
@@ -84,7 +87,6 @@ class TwitterController extends Controller
         }
 
         return null;
-
     }
 
 }
