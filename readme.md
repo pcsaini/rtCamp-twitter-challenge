@@ -48,3 +48,11 @@ Install the package using composer:
 composer require mathiasgrimm/laravel-dot-env-gen:dev-master
 ```
 
+### Google API PHP Client
+[Github Repo](https://github.com/google/google-api-php-client)
+
+Install the package using composer:
+```
+composer require google/apiclient:^2.0
+```
+
