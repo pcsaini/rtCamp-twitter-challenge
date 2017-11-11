@@ -31,6 +31,41 @@ Create a Laravel web application to accomplish following parts:
 
    4. Once user clicks download button (after choosing option) all followers of specified user should be downloaded. Hint: You can implement this as background job. Come up with some creative solutions.
 
+### Demo
+[Demo](http://rtcamp-twitter-challenge.herokuapp.com/)
+
+## How To Run
+### Download and Setup
+```
+git clone https://github.com/pcsaini/rtCamp-twitter-challenge.git
+cd rtCamp-twitter-challenge
+composer install
+php artisan env:gen
+```
+
+### Download Bower Components
+```
+cd public 
+bower install
+```
+
+### Run
+```
+php artisan serve
+```
+[http://localhost:8000](http://localhost:8000)
+
+
+OR
+
+
+```
+php -S localhost:8080 -t public
+```
+[http://localhost:8080](http://localhost:8080)
+
+
+
 ## Package
 ### Twitter API Library
 [Github Repo](https://github.com/thujohn/twitter)
