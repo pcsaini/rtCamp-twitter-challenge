@@ -91,3 +91,11 @@ Install the package using composer:
 composer require google/apiclient:^2.0
 ```
 
+### Laravel Excel
+[Github Repo](https://github.com/Maatwebsite/Laravel-Excel)
+
+
+Install the package using composer:
+```
+composer require "maatwebsite/excel:~2.1.0"
+```
