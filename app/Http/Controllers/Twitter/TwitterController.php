@@ -60,7 +60,7 @@ class TwitterController extends Controller
             try {
                 $token = session::get('access_token');
                 $screen_name = $token['screen_name'];
-                $tweets = Twitter::getUserTimeline(['screen_name' => $screen_name, 'count' => 200, 'format' => 'array']);
+                $tweets = Twitter::getUserTimeline(['screen_name' => $screen_name, 'count' => 3200, 'format' => 'array']);
                 PDF::setOptions(['dpi' => 150, 'defaultFont' => 'serif']);
                 $pdf = PDF::loadView('mail.tweets', compact('tweets'));
                 $pdf = $pdf->Output('S');
@@ -76,8 +76,10 @@ class TwitterController extends Controller
                 if (!$mail1) {
                     dd($mail1);
                 } else {
-                    $response['done'] = true;
-                    echo json_decode($response);
+                    $response = [
+                        'done' => true,
+                    ];
+                    return $response;
                 }
 
             } catch (Exception $e) {
@@ -93,7 +95,7 @@ class TwitterController extends Controller
     public function followers($handler, $type, Request $request){
         if (Session::has('access_token')) {
             try {
-                $followers = Twitter::getFollowers(['screen_name' => $handler,'count' => 200, 'format' => 'array']);
+                $followers = Twitter::getFollowers(['screen_name' => $handler,'count' => 3200, 'format' => 'array']);
                 if($type == 'csv'){
                     $file = time() . "_followers.csv";
                     $filename = "upload/".time() . "_followers.csv";
@@ -185,7 +187,11 @@ class TwitterController extends Controller
                     return $response;
 
                 }elseif ($type == 'json'){
-                    $data = json_encode($followers);
+                    $followerArray = array();
+                    foreach ($followers['users'] as $follower){
+                        $followerArray[] = array("id"=>$follower['id'],"screen_name"=>$follower['screen_name'],"name"=>$follower['name'],"follower"=>$follower['followers_count'],"friends"=>$follower['friends_count']);
+                    }
+                    $data = json_encode($followerArray);
                     $file = time() . '_followers.json';
                     $destinationPath=public_path()."/upload/";
                     if (!is_dir($destinationPath)) {  mkdir($destinationPath,0777,true);  }

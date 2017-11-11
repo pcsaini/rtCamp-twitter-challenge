@@ -77,11 +77,9 @@ $(document).ready(function () {
                 success: function (response) {
                     $('#loader').hide();
                     if (response.done == true){
-                        if(response.type == 'xml' || response.type == 'json'){
+                        if(response.type == 'xml' || response.type == 'json' || response.type == 'pdf'){
                             $('.response').html('<div class="text-center"><a class="btn btn-primary" href="upload/'+ response.link +'" target="_blank">Download</a></div>');
                                 
-                        }else if(response.type == 'pdf'){
-                            $('.response').html('<div class="text-center"><a class="btn btn-primary" href="upload/'+ response.link +'"  target="_self">Download</a></div>');
                         }else{
                             $('.response').html('<div class="text-center"><a class="btn btn-primary" href="upload/'+ response.link +'" >Download</a></div>');
                         }
