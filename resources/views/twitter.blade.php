@@ -4,6 +4,7 @@
         <center><img src="{{asset('img/apple-touch-icon-192x192.png')}}">
             <h1 class="text-center">Twitter Timeline</h1>
             <button data-toggle="modal" data-target="#Mail" class="btn btn-primary">Email Tweets as PDF</button>
+            <button data-toggle="modal" data-target="#Follower" class="btn btn-primary">Download @handler's Followers</button>
         </center>
         <br>
         <div class='row'>
@@ -108,10 +109,67 @@
                                 </div>
                                 <center><button type="submit" class="btn btn-info">GO</button></center>
                             </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="response" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Results</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-lg-12">
                             <div id="loader">
                                 <img src="{{asset('img/loader.gif')}}">
                             </div>
                             <div class="response"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="Follower" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Download @handler's Follower</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <form role="form" id="getFollower">
+                                <div class="form-group col-lg-12">
+                                    <label>User Name</label>
+                                    <input type="text" class="form-control" name="userHandler" id="userHandler" placeholder="@handler" required>
+                                </div>
+                                <div class="form-group col-lg-12">
+                                    <label>Select Download Type</label>
+                                    <select class="form-control" name="type" id="type" required>
+                                        <option selected disabled>Select Download Type</option>
+                                        <option value="csv">CSV</option>
+                                        <option value="xls">XLS</option>
+                                        <option value="google">Google Spreadsheet</option>
+                                        <option value="pdf">PDF</option>
+                                        <option value="xml">XML</option>
+                                        <option value="json">JSON</option>
+                                    </select>
+                                </div>
+                                <center><button type="submit" class="btn btn-info">Download</button></center>
+                            </form>
                         </div>
                     </div>
                 </div>

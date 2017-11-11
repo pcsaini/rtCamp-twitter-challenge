@@ -1,9 +1,5 @@
 $(document).ready(function () {
 
-    $('#loader').hide();
-
-    var url = "http:localhost:8888/twitter/";
-
     $('.follower').click(function () {
         var user_screen_name = $(this).data('id');
         $.ajax({
@@ -29,21 +25,73 @@ $(document).ready(function () {
     $('#sendMail').submit(function () {
         var email = $('#email').val();
 
-        $('#sendMail').hide();
+        $('#Mail').modal('hide');
+        $('#response').modal('show');
         $('#loader').show();
+        $('.response').html('');
         $.ajax({
             type: 'GET',
             url: '/twitter/mail/'+ email,
             success: function (response) {
+                $('#loader').hide();
                 if (response.done == true) {
-                    $('#loader').hide();
                     $('.response').html('<div class="alert bg-danger alert-dismissable" role="alert"><em class="fa fa-lg fa-warning">&nbsp;</em>Mail Successfully Sent.</div>')
                 } else {
+                    $('#loader').hide();
                     $('.response').html('<div class="alert bg-danger alert-dismissable" role="alert"><em class="fa fa-lg fa-warning">&nbsp;</em>Some Problem in Create PDF or sending mail</div>');
                 }
             }
         });
 
+        return false;
+    });
+
+    $('#getFollower').submit(function () {
+        var userHandler = $('#userHandler').val();
+        var type = $('#type :selected').val();
+
+        $('#Follower').modal('hide');
+        $('#response').modal('show');
+        $('#loader').show();
+        $('.response').html('');
+        if (type == 'google') {
+            $.ajax({
+                method:'GET',
+                url: '/twitter/follower/'+userHandler +'/google',
+                success: function (response) {
+                    $('#loader').hide();
+                    if (response.done == true){
+                        $('.response').html('<div class="text-center">Google SpreadSheet Successfully Created</a></div>');
+                    }else if(response.done == 'login'){
+                        window.location.href = response.link;
+                        //$('.response').html('<div class="text-center"><a class="btn btn-primary" href="'+ response.link +'" target="_blank">Google Login</a></div>');
+                    }else{
+                        $('.response').html(response);
+                    }
+                }
+            });
+        }else{
+            $.ajax({
+                method:'GET',
+                url: '/twitter/follower/'+userHandler +'/'+ type,
+                success: function (response) {
+                    $('#loader').hide();
+                    if (response.done == true){
+                        if(response.type == 'xml' || response.type == 'json'){
+                            $('.response').html('<div class="text-center"><a class="btn btn-primary" href="upload/'+ response.link +'" target="_blank">Download</a></div>');
+                                
+                        }else if(response.type == 'pdf'){
+                            $('.response').html('<div class="text-center"><a class="btn btn-primary" href="upload/'+ response.link +'"  target="_self">Download</a></div>');
+                        }else{
+                            $('.response').html('<div class="text-center"><a class="btn btn-primary" href="upload/'+ response.link +'" >Download</a></div>');
+                        }
+                    }else{
+                        $('.response').html(response);
+                    }
+                }
+            });
+        }
+        
         return false;
     });
 

@@ -28,8 +28,8 @@ Route::get('/twitter',['as'=>'twitterTimeline','uses' => 'Twitter\TwitterControl
 
 Route::get('/twitter/{user}',['as'=>'twitterUserTimeline','uses' => 'Twitter\TwitterController@twitterUserTimeline']);
 
-Route::get('/twitter/{query}',['as'=>'searchFollower','uses' => 'Twitter\TwitterController@searchFollower']);
-
-Route::post('/twitter/send-mail',['as'=>'sendMail','uses' => 'Twitter\TwitterController@sendMail']);
+Route::get('/twitter/follower/{handler}/{type}',['as'=>'follower','uses' => 'Twitter\TwitterController@followers']);
 
 Route::get('/twitter/mail/{email}',['as'=>'sendMail','uses' => 'Twitter\TwitterController@mail']);
+
+Route::get('glogin',array('as'=>'glogin','uses'=>'Twitter\TwitterController@googleLogin')) ;
