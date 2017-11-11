@@ -203,7 +203,7 @@ class TwitterController extends Controller
                     $google_redirect_url = route('glogin');
                     $gClient = new \Google_Client();
                     $gClient->setAuthConfigFile(public_path('google.json'));
-                    $gClient->setRedirectUri('http://localhost:8000/glogin');
+                    $gClient->setRedirectUri($google_redirect_url);
                     $gClient->setScopes("https://www.googleapis.com/auth/drive","https://www.googleapis.com/auth/drive.file","https://www.googleapis.com/auth/drive.appdata");
                     session_start();
                     $service = new \Google_Service_Drive($gClient);
@@ -226,17 +226,17 @@ class TwitterController extends Controller
                         ];
                         return $response;
                     }
-
+                    //Create New Spreadsheet
                     $fileMetadata = new \Google_Service_Drive_DriveFile(array(
                         'name' => 'Followers',
                         'mimeType' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'));
                     try {
                         // Get the contents of the file uploaded
                         $data = fopen('followers.xlsx', 'w');
-                        $header = array("id","screen_name","name");
+                        $header = array("id","screen_name","name","followers","friends");
                         fputcsv($data,$header,"\t");
                         foreach ($followers['users'] as $follower) {
-                            fputcsv($data, array($follower['id'],$follower['screen_name'],$follower['name']),"\t");
+                            fputcsv($data, array($follower['id'],$follower['screen_name'],$follower['name'],$follower['followers_count'],$follower['friends_count']),"\t");
                         }
 
                         fclose($data);
@@ -245,22 +245,18 @@ class TwitterController extends Controller
                         $driveInfo = $service->files->create($fileMetadata, array(
                             'data' => $data,
                             'mimeType' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-                            'uploadType' => 'multipart',
+                            'uploadType' => 'multipart'
                         ));
                         unlink('followers.xlsx');
-                        $drive_link=$driveInfo["alternateLink"];
-                        // Return a bunch of data including the link to the file we just uploaded
-                        //return $createdFile;
+                        $response = [
+                            'done' => true,
+                            'type' => 'google',
+                            'link' => $driveInfo['id']
+                        ];
+                        return $response;
                     } catch (Exception $e) {
                         print "An error occurred: " . $e->getMessage();
                     }
-
-                    $response = [
-                        'done' => true,
-                        'type' => 'google',
-                        'link' => $drive_link
-                    ];
-                    return $response;
                      
                 } else{
                     echo "No";
@@ -277,7 +273,7 @@ class TwitterController extends Controller
         $google_redirect_url = route('glogin');
         $gClient = new \Google_Client();
         $gClient->setAuthConfigFile(public_path('google.json'));
-        $gClient->setRedirectUri('http://localhost:8000/glogin');
+        $gClient->setRedirectUri($google_redirect_url);
         $gClient->setScopes("https://www.googleapis.com/auth/drive","https://www.googleapis.com/auth/drive.file","https://www.googleapis.com/auth/drive.appdata");
         $google_oauthV2 = new \Google_Service_Oauth2($gClient);
         if ($request->get('code')){
