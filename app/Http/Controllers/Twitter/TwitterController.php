@@ -54,7 +54,8 @@ class TwitterController extends Controller
 
     }
 
-    public function mail($email){
+    public function mail($email)
+    {
 
         if (Session::has('access_token')) {
             try {
@@ -92,18 +93,64 @@ class TwitterController extends Controller
         return null;
     }
 
-    public function followers($handler, $type, Request $request){
+    public function followers($handler, $type, Request $request)
+    {
         if (Session::has('access_token')) {
             try {
-                $followers = Twitter::getFollowers(['screen_name' => $handler,'count' => 3200, 'format' => 'array']);
-                if($type == 'csv'){
-                    $file = time() . "_followers.csv";
-                    $filename = "upload/".time() . "_followers.csv";
-                    $handle = fopen($filename, 'w+');
-                    fputcsv($handle,array('ID','@handle','Name','Followers','Friends'));
+                $followers = Twitter::getFollowers(['screen_name' => $handler, 'format' => 'array']);
+                $users = $followers['users'];
+            
+                if (isset($followers['next_cursor']) !== 0){
+                     $ticks = 0;
 
-                    foreach($followers['users'] as $follower) {
-                        fputcsv($handle, array($follower['id'], $follower['screen_name'], $follower['name'], $follower['followers_count'],$follower['friends_count']));
+                    do 
+                    {
+                        if ($ticks === 13) 
+                        {
+                            $ticks = 0;
+                            break;
+                        }
+
+                        $ticks++;
+                        $next_cursor = $followers['next_cursor'];
+                        try {
+                            $followers = Twitter::getFollowers(['screen_name' => $handler, 'format' => 'array', 'next_cursor'=> $next_cursor]);
+                            if (!$followers) break;
+
+                            $more_users = $followers['users'];
+                            $users = array_merge($users,$more_users);
+                        } catch (Exception $e) {
+                             dd(Twitter::logs());
+                        }
+                        
+                    }while ( $followers['next_cursor'] > 0);
+
+                }
+
+                dd($users);
+
+            } catch (Exception $e) {
+                dd(Twitter::logs());
+            }
+        } else {
+            return redirect(route('twitter.login'));
+        }
+        return null;
+    }
+
+    public function followers_temp($handler, $type, Request $request)
+    {
+        if (Session::has('access_token')) {
+            try {
+                $followers = Twitter::getFollowers(['screen_name' => $handler, 'format' => 'array']);
+                if ($type == 'csv') {
+                    $file = time() . "_followers.csv";
+                    $filename = "upload/" . time() . "_followers.csv";
+                    $handle = fopen($filename, 'w+');
+                    fputcsv($handle, array('ID', '@handle', 'Name', 'Followers', 'Friends'));
+
+                    foreach ($followers['users'] as $follower) {
+                        fputcsv($handle, array($follower['id'], $follower['screen_name'], $follower['name'], $follower['followers_count'], $follower['friends_count']));
                     }
                     fclose($handle);
 
@@ -119,20 +166,20 @@ class TwitterController extends Controller
                     ];
                     return $response;
 
-                }elseif ($type == 'xls'){
-                    $followerArray[] = array('ID','Screen_name','Name','Followers','Friends');
-                    foreach ($followers['users'] as $follower){
-                        $followerArray[] = array($follower['id'],$follower['screen_name'],$follower['name'], $follower['followers_count'],$follower['friends_count']);
+                } elseif ($type == 'xls') {
+                    $followerArray[] = array('ID', 'Screen_name', 'Name', 'Followers', 'Friends');
+                    foreach ($followers['users'] as $follower) {
+                        $followerArray[] = array($follower['id'], $follower['screen_name'], $follower['name'], $follower['followers_count'], $follower['friends_count']);
                     }
-                    $filename = time().'_follower';
+                    $filename = time() . '_follower';
 
-                    Excel::create($filename, function($excel) use ($followerArray) {
+                    Excel::create($filename, function ($excel) use ($followerArray) {
 
                         $excel->setTitle('Followers');
                         $excel->setCreator('Twitter')->setCompany('pcsaini');
                         $excel->setDescription('Follower File');
 
-                        $excel->sheet('followers', function($sheet) use ($followerArray) {
+                        $excel->sheet('followers', function ($sheet) use ($followerArray) {
                             $sheet->fromArray($followerArray, null, 'A1', false, false);
                         });
 
@@ -140,15 +187,15 @@ class TwitterController extends Controller
                     $response = [
                         'done' => true,
                         'type' => 'xls',
-                        'link' => $filename.'.xls'
+                        'link' => $filename . '.xls'
                     ];
                     return $response;
 
-                }elseif ($type == 'pdf'){
+                } elseif ($type == 'pdf') {
                     PDF::setOptions(['dpi' => 150, 'defaultFont' => 'serif']);
-                    $filename = time().'_follower.pdf';
+                    $filename = time() . '_follower.pdf';
                     $pdf = PDF::loadView('layouts.follower', compact('followers'));
-                    $pdf->save('upload/'.$filename);
+                    $pdf->save('upload/' . $filename);
 
                     $response = [
                         'done' => true,
@@ -158,13 +205,13 @@ class TwitterController extends Controller
 
                     return $response;
 
-                }elseif ($type == 'xml'){
+                } elseif ($type == 'xml') {
                     $filename = "followers.xml";
                     $xml = new XMLWriter();
                     $xml->openURI('upload/followers.xml');
                     $xml->startDocument();
                     $xml->startElement('followers');
-                    foreach($followers['users'] as $follower) {
+                    foreach ($followers['users'] as $follower) {
                         $xml->startElement('data');
                         $xml->writeAttribute('id', $follower['id']);
                         $xml->writeAttribute('screen_name', $follower['screen_name']);
@@ -186,17 +233,19 @@ class TwitterController extends Controller
 
                     return $response;
 
-                }elseif ($type == 'json'){
+                } elseif ($type == 'json') {
                     $followerArray = array();
-                    foreach ($followers['users'] as $follower){
-                        $followerArray[] = array("id"=>$follower['id'],"screen_name"=>$follower['screen_name'],"name"=>$follower['name'],"follower"=>$follower['followers_count'],"friends"=>$follower['friends_count']);
+                    foreach ($followers['users'] as $follower) {
+                        $followerArray[] = array("id" => $follower['id'], "screen_name" => $follower['screen_name'], "name" => $follower['name'], "follower" => $follower['followers_count'], "friends" => $follower['friends_count']);
                     }
                     $data = json_encode($followerArray);
                     $file = time() . '_followers.json';
-                    $destinationPath=public_path()."/upload/";
-                    if (!is_dir($destinationPath)) {  mkdir($destinationPath,0777,true);  }
-                    File::put($destinationPath.$file,$data);
-                    response()->download($destinationPath.$file);
+                    $destinationPath = public_path() . "/upload/";
+                    if (!is_dir($destinationPath)) {
+                        mkdir($destinationPath, 0777, true);
+                    }
+                    File::put($destinationPath . $file, $data);
+                    response()->download($destinationPath . $file);
 
                     $response = [
                         'done' => true,
@@ -205,24 +254,21 @@ class TwitterController extends Controller
                     ];
                     return $response;
 
-                }elseif ($type == 'google'){
+                } elseif ($type == 'google') {
                     $google_redirect_url = route('glogin');
                     $gClient = new \Google_Client();
                     $gClient->setAuthConfigFile(public_path('google.json'));
                     $gClient->setRedirectUri($google_redirect_url);
-                    $gClient->setScopes("https://www.googleapis.com/auth/drive","https://www.googleapis.com/auth/drive.file","https://www.googleapis.com/auth/drive.appdata");
+                    $gClient->setScopes("https://www.googleapis.com/auth/drive", "https://www.googleapis.com/auth/drive.file", "https://www.googleapis.com/auth/drive.appdata");
                     session_start();
                     $service = new \Google_Service_Drive($gClient);
-                    if ($request->get('code')){
+                    if ($request->get('code')) {
                         $gClient->authenticate($request->get('code'));
                         $request->session()->put('token', $gClient->getAccessToken());
                     }
-                    if ($request->session()->get('token'))
-                    {
+                    if ($request->session()->get('token')) {
                         $gClient->setAccessToken($request->session()->get('token'));
-                    }
-                    else
-                    {
+                    } else {
                         $authUrl = $gClient->createAuthUrl();
 
                         $response = [
@@ -235,36 +281,31 @@ class TwitterController extends Controller
                     //Create New Spreadsheet
                     $fileMetadata = new \Google_Service_Drive_DriveFile(array(
                         'name' => 'Followers',
-                        'mimeType' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'));
-                    try {
-                        // Get the contents of the file uploaded
-                        $data = fopen('followers.xlsx', 'w');
-                        $header = array("id","screen_name","name","followers","friends");
-                        fputcsv($data,$header,"\t");
-                        foreach ($followers['users'] as $follower) {
-                            fputcsv($data, array($follower['id'],$follower['screen_name'],$follower['name'],$follower['followers_count'],$follower['friends_count']),"\t");
-                        }
+                        'mimeType' => 'application/vnd.ms-excel'));
 
-                        fclose($data);
-                        $data = file_get_contents('followers.xlsx');
-                    
-                        $driveInfo = $service->files->create($fileMetadata, array(
-                            'data' => $data,
-                            'mimeType' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-                            'uploadType' => 'multipart'
-                        ));
-                        unlink('followers.xlsx');
-                        $response = [
-                            'done' => true,
-                            'type' => 'google',
-                            'link' => $driveInfo['id']
-                        ];
-                        return $response;
-                    } catch (Exception $e) {
-                        print "An error occurred: " . $e->getMessage();
+                    // Get the contents of the file uploaded
+                    $data = fopen('followers.xlsx', 'w');
+                    $header = array("id", "screen_name", "name", "followers", "friends");
+                    fputcsv($data, $header, "\t");
+                    foreach ($followers['users'] as $follower) {
+                        fputcsv($data, array($follower['id'], $follower['screen_name'], $follower['name'], $follower['followers_count'], $follower['friends_count']), "\t");
                     }
-                     
-                } else{
+
+                    fclose($data);
+                    $data = file_get_contents('followers.xlsx');
+
+                    $driveInfo = $service->files->create($fileMetadata, array(
+                        'data' => $data,
+                        'mimeType' => 'application/vnd.ms-excel',
+                    ));
+                    unlink('followers.xlsx');
+                    $response = [
+                        'done' => true,
+                        'type' => 'google',
+                        'link' => $driveInfo['id']
+                    ];
+                    return $response;
+                } else {
                     echo "No";
                 }
             } catch (Exception $e) {
@@ -275,26 +316,25 @@ class TwitterController extends Controller
         }
         return null;
     }
-    public function googleLogin(Request $request ){
+
+    public function googleLogin(Request $request)
+    {
         $google_redirect_url = route('glogin');
         $gClient = new \Google_Client();
         $gClient->setAuthConfigFile(public_path('google.json'));
         $gClient->setRedirectUri($google_redirect_url);
-        $gClient->setScopes("https://www.googleapis.com/auth/drive","https://www.googleapis.com/auth/drive.file","https://www.googleapis.com/auth/drive.appdata");
+        $gClient->setScopes("https://www.googleapis.com/auth/drive", "https://www.googleapis.com/auth/drive.file", "https://www.googleapis.com/auth/drive.appdata");
         $google_oauthV2 = new \Google_Service_Oauth2($gClient);
-        if ($request->get('code')){
+        if ($request->get('code')) {
             $gClient->authenticate($request->get('code'));
             $request->session()->put('token', $gClient->getAccessToken());
         }
-        if ($request->session()->get('token'))
-        {
+        if ($request->session()->get('token')) {
             $gClient->setAccessToken($request->session()->get('token'));
         }
-        if ($gClient->getAccessToken())
-        {
+        if ($gClient->getAccessToken()) {
             return redirect()->route('twitterTimeline');
-        } else
-        {
+        } else {
             //For Guest user, get google login url
             $authUrl = $gClient->createAuthUrl();
             return redirect()->to($authUrl);

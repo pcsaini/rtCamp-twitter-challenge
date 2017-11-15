@@ -35,7 +35,7 @@ $(document).ready(function () {
             success: function (response) {
                 $('#loader').hide();
                 if (response.done == true) {
-                    $('.response').html('<div class="alert bg-danger alert-dismissable" role="alert"><em class="fa fa-lg fa-warning">&nbsp;</em>Mail Successfully Sent.</div>')
+                    $('.response').html('<div class="alert bg-success alert-dismissable" role="alert"><em class="fa fa-lg fa-warning">&nbsp;</em>Mail Successfully Sent.</div>')
                 } else {
                     $('#loader').hide();
                     $('.response').html('<div class="alert bg-danger alert-dismissable" role="alert"><em class="fa fa-lg fa-warning">&nbsp;</em>Some Problem in Create PDF or sending mail</div>');
@@ -61,7 +61,8 @@ $(document).ready(function () {
                 success: function (response) {
                     $('#loader').hide();
                     if (response.done == true){
-                        $('.response').html('<div class="text-center">Google SpreadSheet Successfully Created</a></div>');
+                        https://docs.google.com/spreadsheets/d/1HXC6aLrBvTjOcfch2I64pBdjl_I6JW6TMq4MNoQHSeQ/edit
+                        $('.response').html('<div class="text-center"><a class="btn btn-primary" href="https://docs.google.com/spreadsheets/d/'+ response.link +'/edit" target="_blank">View</a></div>');
                     }else if(response.done == 'login'){
                         window.location.href = response.link;
                         //$('.response').html('<div class="text-center"><a class="btn btn-primary" href="'+ response.link +'" target="_blank">Google Login</a></div>');
