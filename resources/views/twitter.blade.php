@@ -3,7 +3,7 @@
     <div class="container">
         <center><img src="{{asset('img/apple-touch-icon-192x192.png')}}">
             <h1 class="text-center">Twitter Timeline</h1>
-            <a href="/twitter/follower/BSKFanClub/csv">Followers</a>
+            <a href="/twitter/follower/BootstrapOcean/csv">Followers</a>
             <button data-toggle="modal" data-target="#Mail" class="btn btn-primary">Email Tweets as PDF</button>
             <button data-toggle="modal" data-target="#Follower" class="btn btn-primary">Download @handler's Followers</button>
         </center>

@@ -22,20 +22,12 @@
         <thead>
         <tr>
             <th>ID</th>
-            <th>@handle</th>
-            <th>Name</th>
-            <th>Followers</th>
-            <th>Friends</th>
         </tr>
         </thead>
         <tbody>
         @foreach($users as $follower)
             <tr>
-                <td>{{$follower['id']}}</td>
-                <td>{{$follower['screen_name']}}</td>
-                <td>{{$follower['name']}}</td>
-                <td>{{$follower['followers_count']}}</td>
-                <td>{{$follower['friends_count']}}</td>
+                <td>{{$follower}}</td>
             </tr>
         @endforeach
         </tbody>

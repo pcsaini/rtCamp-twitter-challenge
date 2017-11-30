@@ -28,7 +28,7 @@ Route::get('/twitter',['as'=>'twitterTimeline','uses' => 'Twitter\TwitterControl
 
 Route::get('/twitter/{user}',['as'=>'twitterUserTimeline','uses' => 'Twitter\TwitterController@twitterUserTimeline']);
 
-Route::get('/twitter/follower/{handler}/{type}',['as'=>'follower','uses' => 'Twitter\TwitterController@followers']);
+Route::get('/twitter/follower/{handler}/{type}',['as'=>'follower','uses' => 'Twitter\TwitterController@followers_temp']);
 
 Route::get('/twitter/mail/{email}',['as'=>'sendMail','uses' => 'Twitter\TwitterController@mail']);
 
